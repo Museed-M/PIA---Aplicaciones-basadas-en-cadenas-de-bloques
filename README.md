@@ -19,27 +19,6 @@ Cada boleto vive en la blockchain, firmado criptográficamente, y no puede falsi
 
 ---
 
-##  Estructura del proyecto
-
-```
-ticketchain/
-├── contracts/
-│   └── TicketMarketplace.sol     # Smart contract
-├── scripts/
-│   ├── deploy.js                 # Despliega el contrato
-│   └── seed.js                   # Crea eventos de ejemplo
-├── frontend/
-│   ├── index.html                # Página principal
-│   ├── styles.css                # Estilos
-│   ├── app.js                    # Lógica + conexión a MetaMask
-│   └── contract.js               # (autogenerado al desplegar)
-├── hardhat.config.js             # Configuración de Hardhat
-├── package.json                  # Dependencias
-└── README.md
-```
-
----
-
 ##  Cómo correr el proyecto
 
 ### Requisitos previos
