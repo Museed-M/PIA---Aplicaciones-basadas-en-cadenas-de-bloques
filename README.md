@@ -102,18 +102,6 @@ Intenta listar un ticket a un precio mayor al tope: el contrato lo rechaza ✅
 
 ---
 
-##  Funciones principales del smart contract
-
-| Función | Quién puede llamarla | ¿Pagable? | Qué hace |
-|---|---|---|---|
-| `createEvent(...)` | Organizadores autorizados | No | Crea un nuevo evento |
-| `buyTicket(eventId)` | Cualquiera | ✅ Sí | Compra ticket primario en ETH |
-| `listForResale(ticketId, price)` | Dueño del ticket | No | Pone ticket en reventa (≤ tope) |
-| `cancelListing(ticketId)` | Dueño del ticket | No | Cancela una reventa |
-| `buyResaleTicket(ticketId)` | Cualquiera | ✅ Sí | Compra ticket de reventa |
-| `useTicket(ticketId)` | Organizador del evento | No | Marca ticket como usado |
-| `authorizeOrganizer(addr)` | Owner del contrato | No | Autoriza nuevo organizador |
-
 ### Validaciones con `require` (ejemplos)
 
 ```solidity
