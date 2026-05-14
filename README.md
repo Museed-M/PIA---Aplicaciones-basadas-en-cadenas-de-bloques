@@ -1,4 +1,4 @@
-# ⛓ TicketChain
+#  TicketChain
 
 > Marketplace descentralizado de boletos para eventos, con reventa controlada (anti-scalping) sobre blockchain local.
 
@@ -6,7 +6,7 @@ Proyecto Integrador de Aprendizaje (PIA) — Tecnologías Blockchain.
 
 ---
 
-## 📖 ¿Qué hace este proyecto?
+##  ¿Qué hace este proyecto?
 
 **TicketChain** es una DApp (aplicación descentralizada) donde:
 
@@ -19,7 +19,7 @@ Cada boleto vive en la blockchain, firmado criptográficamente, y no puede falsi
 
 ---
 
-## 📂 Estructura del proyecto
+##  Estructura del proyecto
 
 ```
 ticketchain/
@@ -40,7 +40,7 @@ ticketchain/
 
 ---
 
-## 🚀 Cómo correr el proyecto
+##  Cómo correr el proyecto
 
 ### Requisitos previos
 
@@ -108,11 +108,10 @@ python -m http.server 8080
 
 Luego abre [http://localhost:8080](http://localhost:8080).
 
-> ⚠️ No abras el HTML con doble clic (`file://...`), MetaMask no se conecta así.
 
 ---
 
-## 🧪 Flujo de prueba
+##  Flujo de prueba
 
 1. **Cuenta A (Organizador)** → conecta wallet → pestaña **Panel organizador** → crea evento
 2. **Cuenta B (Comprador)** → cambia de cuenta en MetaMask → pestaña **Eventos** → compra ticket
@@ -124,7 +123,7 @@ Intenta listar un ticket a un precio mayor al tope: el contrato lo rechaza ✅
 
 ---
 
-## 📜 Funciones principales del smart contract
+##  Funciones principales del smart contract
 
 | Función | Quién puede llamarla | ¿Pagable? | Qué hace |
 |---|---|---|---|
@@ -148,7 +147,7 @@ require(!t.used, "Ticket ya usado");
 
 ---
 
-## 👥 Equipo
+##  Equipo
 
 - **Nombre del/los alumnos:** Edgar De Jesus Mendez Martinez / Itzeli Giovanna Reta Martinez
 - **Matrícula:** 2132927 / 1913570
