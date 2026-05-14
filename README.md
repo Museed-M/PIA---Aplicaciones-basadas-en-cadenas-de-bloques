@@ -2,7 +2,7 @@
 
 > Marketplace descentralizado de boletos para eventos, con reventa controlada (anti-scalping) sobre blockchain local.
 
-Proyecto Integrador de Aprendizaje (PIA) — Tecnologías Blockchain.
+Proyecto Integrador de Aprendizaje (PIA)
 
 ---
 
