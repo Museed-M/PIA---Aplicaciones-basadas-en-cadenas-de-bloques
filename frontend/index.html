@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TicketChain · Marketplace descentralizado de boletos</title>
+
+  <!-- Tipografías -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;800&family=Manrope:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Ethers v6 desde CDN (cliente, no servidor: cumple con descentralización) -->
+  <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.0/dist/ethers.umd.min.js"></script>
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ============================================================ -->
+  <!--   MODAL INICIAL: ¿Quieres conectar tu wallet? (Requisito #1)  -->
+  <!-- ============================================================ -->
+  <div id="welcome-modal" class="modal">
+    <div class="modal-card">
+      <div class="modal-badge">PASO 1</div>
+      <h2>¿Conectar tu wallet?</h2>
+      <p>
+        TicketChain es una aplicación descentralizada. Para comprar, revender o validar
+        boletos necesitas conectar una <strong>wallet de software</strong> como
+        MetaMask, Phantom o similar.
+      </p>
+      <p class="muted">
+        Si decides no conectar, podrás explorar la app en modo <em>solo lectura</em>:
+        verás los eventos disponibles pero no podrás realizar ninguna transacción.
+      </p>
+      <div class="modal-actions">
+        <button id="btn-connect-welcome" class="btn btn-primary">
+          Conectar MetaMask
+        </button>
+        <button id="btn-decline-welcome" class="btn btn-ghost">
+          Continuar sin wallet
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!--                          HEADER                                -->
+  <!-- ============================================================ -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">⛓</div>
+      <div>
+        <div class="brand-name">TicketChain</div>
+        <div class="brand-tag">Marketplace descentralizado · Anti-scalping</div>
+      </div>
+    </div>
+
+    <div class="wallet-area">
+      <div id="wallet-status" class="wallet-status disconnected">
+        <span class="dot"></span>
+        <span id="wallet-text">Wallet desconectada</span>
+      </div>
+      <button id="btn-toggle-wallet" class="btn btn-primary">Conectar wallet</button>
+    </div>
+  </header>
+
+  <!-- ============================================================ -->
+  <!--                            TABS                                -->
+  <!-- ============================================================ -->
+  <nav class="tabs">
+    <button class="tab active" data-tab="events">Eventos</button>
+    <button class="tab" data-tab="resale">Reventa</button>
+    <button class="tab" data-tab="my-tickets">Mis tickets</button>
+    <button class="tab" data-tab="organizer">Panel organizador</button>
+    <button class="tab" data-tab="admin">Admin</button>
+  </nav>
+
+  <main>
+
+    <!-- ===== TAB: EVENTOS ===== -->
+    <section id="tab-events" class="tab-content active">
+      <div class="section-head">
+        <h1>Eventos activos</h1>
+        <p class="muted">Compra boletos directamente en la blockchain. Pago en ETH.</p>
+      </div>
+      <div id="events-list" class="grid">
+        <div class="empty">Cargando eventos…</div>
+      </div>
+    </section>
+
+    <!-- ===== TAB: REVENTA ===== -->
+    <section id="tab-resale" class="tab-content">
+      <div class="section-head">
+        <h1>Mercado de reventa</h1>
+        <p class="muted">
+          Boletos puestos a la venta por sus dueños. El precio está
+          <strong>limitado por el organizador</strong> para evitar scalping abusivo.
+        </p>
+      </div>
+      <div id="resale-list" class="grid">
+        <div class="empty">Cargando reventas…</div>
+      </div>
+    </section>
+
+    <!-- ===== TAB: MIS TICKETS ===== -->
+    <section id="tab-my-tickets" class="tab-content">
+      <div class="section-head">
+        <h1>Mis tickets</h1>
+        <p class="muted">Tickets firmados a tu nombre en la blockchain.</p>
+      </div>
+      <div id="my-tickets-list" class="grid">
+        <div class="empty">Conecta tu wallet para ver tus tickets.</div>
+      </div>
+    </section>
+
+    <!-- ===== TAB: PANEL ORGANIZADOR ===== -->
+    <section id="tab-organizer" class="tab-content">
+      <div class="section-head">
+        <h1>Panel del organizador</h1>
+        <p class="muted">Crea eventos y valida boletos en la entrada.</p>
+      </div>
+
+      <div class="two-cols">
+        <div class="card">
+          <h3>Crear evento</h3>
+          <p class="muted small">Solo cuentas autorizadas pueden crear eventos.</p>
+          <form id="form-create-event">
+            <label>Nombre del evento
+              <input type="text" id="ev-name" required placeholder="Concierto X 2026">
+            </label>
+            <label>Sede
+              <input type="text" id="ev-venue" required placeholder="Auditorio…">
+            </label>
+            <label>Fecha y hora
+              <input type="datetime-local" id="ev-date" required>
+            </label>
+            <label>Precio original (ETH)
+              <input type="number" id="ev-price" step="0.0001" min="0" required placeholder="0.05">
+            </label>
+            <label>Precio MÁX de reventa (ETH)
+              <input type="number" id="ev-max-resale" step="0.0001" min="0" required placeholder="0.06">
+            </label>
+            <label>Total de tickets
+              <input type="number" id="ev-total" min="1" required placeholder="100">
+            </label>
+            <button type="submit" class="btn btn-primary">Crear evento</button>
+          </form>
+        </div>
+
+        <div class="card">
+          <h3>Validar ticket en la puerta</h3>
+          <p class="muted small">Marca un ticket como usado para que ya no pueda revenderse.</p>
+          <form id="form-validate-ticket">
+            <label>ID del ticket
+              <input type="number" id="validate-id" min="1" required placeholder="3">
+            </label>
+            <button type="submit" class="btn btn-primary">Marcar como usado</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== TAB: ADMIN ===== -->
+    <section id="tab-admin" class="tab-content">
+      <div class="section-head">
+        <h1>Administración</h1>
+        <p class="muted">Solo el dueño del contrato puede autorizar organizadores.</p>
+      </div>
+
+      <div class="card">
+        <h3>Autorizar nuevo organizador</h3>
+        <form id="form-authorize">
+          <label>Dirección de la wallet
+            <input type="text" id="authorize-address" required placeholder="0x…">
+          </label>
+          <button type="submit" class="btn btn-primary">Autorizar</button>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================ -->
+  <!--                       MODAL DE REVENTA                         -->
+  <!-- ============================================================ -->
+  <div id="resale-modal" class="modal hidden">
+    <div class="modal-card">
+      <h2>Poner ticket en reventa</h2>
+      <p class="muted">Ticket <span id="resale-ticket-info" class="mono"></span></p>
+      <p class="small">Precio máximo permitido: <strong id="resale-max"></strong> ETH</p>
+      <form id="form-resale">
+        <label>Precio de venta (ETH)
+          <input type="number" id="resale-price" step="0.0001" min="0" required>
+        </label>
+        <div class="modal-actions">
+          <button type="submit" class="btn btn-primary">Listar para reventa</button>
+          <button type="button" id="resale-cancel" class="btn btn-ghost">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast / notificaciones -->
+  <div id="toast-container"></div>
+
+  <footer>
+    <span>TicketChain · Proyecto Integrador de Aprendizaje · Tecnologías Blockchain</span>
+  </footer>
+
+  <script src="contract.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
