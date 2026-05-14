@@ -1,5 +1,3 @@
-// Script OPCIONAL para crear un evento de ejemplo después de desplegar
-
 const fs = require("fs");
 const path = require("path");
 
@@ -7,7 +5,6 @@ async function main() {
   const contractFile = path.join(__dirname, "..", "frontend", "contract.js");
   const content = fs.readFileSync(contractFile, "utf8");
   const json = content
-    .replace("// Archivo autogenerado por scripts/deploy.js. NO editar a mano.\n", "")
     .replace("window.CONTRACT = ", "")
     .replace(/;\s*$/, "");
   const { address, abi } = JSON.parse(json);
@@ -15,12 +12,11 @@ async function main() {
   const [signer] = await ethers.getSigners();
   const contract = new ethers.Contract(address, abi, signer);
 
-  console.log("Creando evento de ejemplo...");
+  console.log("Creando eventos de ejemplo...");
 
-  // Fecha: dentro de 30 días
   const futureDate = Math.floor(Date.now() / 1000) + 30 * 24 * 60 * 60;
-  const originalPrice = ethers.parseEther("0.05");  // 0.05 ETH
-  const maxResalePrice = ethers.parseEther("0.06"); // tope: 0.06 ETH (+20%)
+  const originalPrice = ethers.parseEther("0.05");
+  const maxResalePrice = ethers.parseEther("0.06");
 
   const tx = await contract.createEvent(
     "Concierto Blockchain Live 2026",
@@ -28,7 +24,7 @@ async function main() {
     futureDate,
     originalPrice,
     maxResalePrice,
-    50 // 50 tickets disponibles
+    50
   );
   await tx.wait();
 
@@ -42,7 +38,7 @@ async function main() {
   );
   await tx2.wait();
 
-  console.log(" 2 eventos de ejemplo creados");
+  console.log("2 eventos de ejemplo creados");
 }
 
 main().catch((error) => {
