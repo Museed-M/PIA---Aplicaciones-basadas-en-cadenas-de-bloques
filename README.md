@@ -10,10 +10,10 @@ Proyecto Integrador de Aprendizaje (PIA) — Tecnologías Blockchain.
 
 **TicketChain** es una DApp (aplicación descentralizada) donde:
 
-- 🎟 **Organizadores** crean eventos y emiten boletos en la blockchain
-- 💳 **Asistentes** compran boletos pagando en ETH (criptomoneda) desde su wallet
-- ♻️ **Revendedores** pueden poner sus boletos en venta, pero **a un precio máximo definido por el organizador** (anti-scalping)
-- 🔒 **El organizador** valida los boletos en la entrada del evento
+- **Organizadores** crean eventos y emiten boletos en la blockchain
+- **Asistentes** compran boletos pagando en ETH (criptomoneda) desde su wallet
+- **Revendedores** pueden poner sus boletos en venta, pero **a un precio máximo definido por el organizador** (anti-scalping)
+- **El organizador** valida los boletos en la entrada del evento
 
 Cada boleto vive en la blockchain, firmado criptográficamente, y no puede falsificarse ni revenderse a precios abusivos.
 
@@ -34,27 +34,6 @@ Cada boleto vive en la blockchain, firmado criptográficamente, y no puede falsi
 
 ---
 
-## 🏗 Arquitectura
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                      USUARIO + MetaMask                      │
-└──────────────────────────┬──────────────────────────────────┘
-                           │  firma transacciones
-                           ▼
-┌─────────────────────────────────────────────────────────────┐
-│              FRONTEND (HTML + JS + ethers.js)                │
-│                  index.html · styles.css · app.js            │
-└──────────────────────────┬──────────────────────────────────┘
-                           │  JSON-RPC
-                           ▼
-┌─────────────────────────────────────────────────────────────┐
-│             BLOCKCHAIN LOCAL (Hardhat Node)                  │
-│              ↳ TicketMarketplace.sol desplegado              │
-└─────────────────────────────────────────────────────────────┘
-```
-
-No hay servidor de aplicación. El frontend habla **directamente** con la blockchain. Esto cumple el requisito de **no incluir actividades centralizadas**.
 
 ---
 
