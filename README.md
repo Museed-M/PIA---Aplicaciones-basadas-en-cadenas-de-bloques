@@ -196,9 +196,3 @@ require(!t.used, "Ticket ya usado");
 - **Grupo:** _(completar)_
 - **Materia:** _(completar)_
 - **Profesor:** _(completar)_
-
----
-
-## 📄 Licencia
-
-MIT — uso libre para fines académicos.
