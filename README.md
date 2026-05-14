@@ -30,7 +30,7 @@ Cada boleto vive en la blockchain, firmado criptográficamente, y no puede falsi
 ### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/TU_USUARIO/ticketchain.git
+git clone https://github.com/Museed-M/PIA---Aplicaciones-basadas-en-cadenas-de-bloques.git
 cd ticketchain
 ```
 
