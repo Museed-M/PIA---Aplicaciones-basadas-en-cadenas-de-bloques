@@ -19,24 +19,6 @@ Cada boleto vive en la blockchain, firmado criptográficamente, y no puede falsi
 
 ---
 
-## ✨ Características
-
-| Característica | Detalle |
-|---|---|
-| Wallet | Conexión con MetaMask (u otra wallet de software compatible con EVM) |
-| Smart Contract | Solidity ^0.8.20 |
-| Blockchain | Hardhat local (chain ID `31337`) |
-| Frontend | HTML + JavaScript vanilla + ethers.js v6 (100% cliente, sin servidor) |
-| Pagos | ETH nativo |
-| Roles | `owner` → `organizers` → `ticketOwners`, validados con `require` |
-| Anti-scalping | Precio máximo de reventa configurable por evento |
-| Comisión de reventa | 5% al organizador del evento original |
-
----
-
-
----
-
 ## 📂 Estructura del proyecto
 
 ```
@@ -166,33 +148,9 @@ require(!t.used, "Ticket ya usado");
 
 ---
 
-## 🛠 Stack técnico
-
-- **Solidity** `^0.8.20` — lenguaje del smart contract
-- **Hardhat** `^2.22` — entorno de desarrollo y blockchain local
-- **ethers.js** `v6` — librería para hablar con la blockchain desde el frontend
-- **HTML + CSS + JS** — frontend sin frameworks (100% descentralizado)
-
----
-
-## 📋 Cumplimiento de requisitos del PIA
-
-| Requisito | Cumplimiento | Puntos |
-|---|---|---|
-| Uso de wallet (MetaMask) | Modal inicial pregunta si conectar, botón siempre visible | 20 |
-| Uso correcto de funciones Blockchain | `mapping`, `struct`, `event`, `modifier`, `payable`, `msg.sender/value` | 10 |
-| Función que recibe pago en cripto | `buyTicket` y `buyResaleTicket` son `payable` | 15 |
-| Conexión Smart Contract con UI | ethers.js + escucha de eventos del contrato | 20 |
-| Validación de roles con `require` | 4 modifiers con `require` para owner/organizer/ticketOwner | 15 |
-| Código fuente del Smart Contract | `TicketMarketplace.sol` documentado | 20 |
-| **Total** | | **100** |
-
----
-
 ## 👥 Equipo
 
-- **Nombre del/los alumnos:** _(completar)_
-- **Matrícula:** _(completar)_
-- **Grupo:** _(completar)_
-- **Materia:** _(completar)_
-- **Profesor:** _(completar)_
+- **Nombre del/los alumnos:** Edgar De Jesus Mendez Martinez / Itzeli Giovanna Reta Martinez
+- **Matrícula:** 2132927 / 1913570
+- **Materia:** Aplicaciones Basadas en Cadenas de Bloques
+- **Profesor:** Astrid Muniz Solorio
