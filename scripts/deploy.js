@@ -1,5 +1,3 @@
-// Script para desplegar el contrato TicketMarketplace en la blockchain local
-
 const fs = require("fs");
 const path = require("path");
 
@@ -17,7 +15,7 @@ async function main() {
   await contract.waitForDeployment();
 
   const address = await contract.getAddress();
-  console.log(" Contrato desplegado en:", address);
+  console.log("Contrato desplegado en:", address);
 
   const artifact = await artifacts.readArtifact("TicketMarketplace");
   const out = {
@@ -27,10 +25,9 @@ async function main() {
   const frontendPath = path.join(__dirname, "..", "frontend", "contract.js");
   fs.writeFileSync(
     frontendPath,
-    "// Archivo autogenerado por scripts/deploy.js. NO editar a mano.\n" +
-      "window.CONTRACT = " + JSON.stringify(out, null, 2) + ";\n"
+    "window.CONTRACT = " + JSON.stringify(out, null, 2) + ";\n"
   );
-  console.log(" ABI y dirección escritos en frontend/contract.js");
+  console.log("ABI y direccion escritos en frontend/contract.js");
 }
 
 main().catch((error) => {
