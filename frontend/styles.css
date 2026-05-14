@@ -1,8 +1,3 @@
-/* ============================================================
-   TicketChain · estilos
-   Tema: dark, technológico, con acentos lime/cyan
-   ============================================================ */
-
 :root {
   --bg:           #0a0e13;
   --bg-soft:      #11161d;
@@ -12,8 +7,8 @@
   --text:         #e7ecf3;
   --text-dim:     #8e98a9;
   --text-muted:   #5d6776;
-  --accent:       #c6ff3d;   /* lime eléctrico */
-  --accent-2:     #00e5ff;   /* cyan */
+  --accent:       #c6ff3d;
+  --accent-2:     #00e5ff;
   --danger:       #ff5470;
   --warn:         #ffb347;
   --success:      #5cdb95;
@@ -39,7 +34,6 @@ html, body {
   min-height: 100vh;
 }
 
-/* Fondo con sutiles puntos / grano */
 body {
   background-image:
     radial-gradient(circle at 15% 10%, rgba(198, 255, 61, 0.07), transparent 40%),
@@ -58,7 +52,6 @@ h3 { font-size: 1.15rem; }
 .small { font-size: 0.85rem; }
 .mono  { font-family: var(--font-mono); font-size: 0.9em; }
 
-/* ============================== TOPBAR ============================== */
 .topbar {
   display: flex;
   align-items: center;
@@ -103,7 +96,6 @@ h3 { font-size: 1.15rem; }
 .wallet-status .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--danger); }
 .wallet-status.connected .dot { background: var(--success); box-shadow: 0 0 8px var(--success); }
 
-/* ============================== TABS ============================== */
 .tabs {
   display: flex;
   gap: 4px;
@@ -144,7 +136,6 @@ main {
 .section-head { margin-bottom: 28px; }
 .section-head h1 { margin-bottom: 6px; }
 
-/* ============================== CARDS ============================== */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
@@ -203,7 +194,6 @@ main {
   flex-wrap: wrap;
 }
 
-/* ============================== BOTONES ============================== */
 .btn {
   font-family: var(--font-display);
   font-weight: 600;
@@ -237,7 +227,6 @@ main {
 .btn-danger:hover:not(:disabled) { background: rgba(255, 84, 112, 0.1); }
 .btn-sm { padding: 7px 12px; font-size: 0.8rem; }
 
-/* ============================== FORMS ============================== */
 form { display: flex; flex-direction: column; gap: 14px; margin-top: 16px; }
 label {
   display: flex;
@@ -266,7 +255,6 @@ input:focus { outline: none; border-color: var(--accent-2); }
 }
 @media (max-width: 760px) { .two-cols { grid-template-columns: 1fr; } }
 
-/* ============================== MODAL ============================== */
 .modal {
   position: fixed;
   inset: 0;
@@ -306,7 +294,6 @@ input:focus { outline: none; border-color: var(--accent-2); }
   flex-wrap: wrap;
 }
 
-/* ============================== EMPTY STATES ============================== */
 .empty {
   grid-column: 1 / -1;
   text-align: center;
@@ -317,7 +304,6 @@ input:focus { outline: none; border-color: var(--accent-2); }
   background: var(--bg-soft);
 }
 
-/* ============================== TOAST ============================== */
 #toast-container {
   position: fixed;
   bottom: 20px;
@@ -342,7 +328,6 @@ input:focus { outline: none; border-color: var(--accent-2); }
 .toast.success { border-left-color: var(--success); }
 @keyframes slideIn { from { transform: translateX(20px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 
-/* ============================== FOOTER ============================== */
 footer {
   border-top: 1px solid var(--border);
   padding: 20px 32px;
@@ -352,7 +337,6 @@ footer {
   font-family: var(--font-mono);
 }
 
-/* read-only state */
 .readonly-banner {
   background: rgba(255, 179, 71, 0.08);
   border: 1px solid rgba(255, 179, 71, 0.3);
