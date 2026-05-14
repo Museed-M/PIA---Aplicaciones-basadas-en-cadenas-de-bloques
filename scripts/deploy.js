@@ -1,5 +1,4 @@
 // Script para desplegar el contrato TicketMarketplace en la blockchain local
-// Uso: npx hardhat run scripts/deploy.js --network localhost
 
 const fs = require("fs");
 const path = require("path");
@@ -18,9 +17,8 @@ async function main() {
   await contract.waitForDeployment();
 
   const address = await contract.getAddress();
-  console.log("✅ Contrato desplegado en:", address);
+  console.log(" Contrato desplegado en:", address);
 
-  // Guardamos la dirección y el ABI donde el frontend pueda leerlos
   const artifact = await artifacts.readArtifact("TicketMarketplace");
   const out = {
     address,
@@ -32,7 +30,7 @@ async function main() {
     "// Archivo autogenerado por scripts/deploy.js. NO editar a mano.\n" +
       "window.CONTRACT = " + JSON.stringify(out, null, 2) + ";\n"
   );
-  console.log("📝 ABI y dirección escritos en frontend/contract.js");
+  console.log(" ABI y dirección escritos en frontend/contract.js");
 }
 
 main().catch((error) => {
