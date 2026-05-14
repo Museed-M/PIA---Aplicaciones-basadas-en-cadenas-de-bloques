@@ -3,23 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>TicketChain · Marketplace descentralizado de boletos</title>
+  <title>TicketChain</title>
 
-  <!-- Tipografías -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;800&family=Manrope:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 
-  <!-- Ethers v6 desde CDN (cliente, no servidor: cumple con descentralización) -->
   <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.0/dist/ethers.umd.min.js"></script>
 
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-  <!-- ============================================================ -->
-  <!--   MODAL INICIAL: ¿Quieres conectar tu wallet? (Requisito #1)  -->
-  <!-- ============================================================ -->
   <div id="welcome-modal" class="modal">
     <div class="modal-card">
       <div class="modal-badge">PASO 1</div>
@@ -44,9 +39,6 @@
     </div>
   </div>
 
-  <!-- ============================================================ -->
-  <!--                          HEADER                                -->
-  <!-- ============================================================ -->
   <header class="topbar">
     <div class="brand">
       <div class="brand-mark">⛓</div>
@@ -65,9 +57,6 @@
     </div>
   </header>
 
-  <!-- ============================================================ -->
-  <!--                            TABS                                -->
-  <!-- ============================================================ -->
   <nav class="tabs">
     <button class="tab active" data-tab="events">Eventos</button>
     <button class="tab" data-tab="resale">Reventa</button>
@@ -78,7 +67,6 @@
 
   <main>
 
-    <!-- ===== TAB: EVENTOS ===== -->
     <section id="tab-events" class="tab-content active">
       <div class="section-head">
         <h1>Eventos activos</h1>
@@ -89,7 +77,6 @@
       </div>
     </section>
 
-    <!-- ===== TAB: REVENTA ===== -->
     <section id="tab-resale" class="tab-content">
       <div class="section-head">
         <h1>Mercado de reventa</h1>
@@ -103,7 +90,6 @@
       </div>
     </section>
 
-    <!-- ===== TAB: MIS TICKETS ===== -->
     <section id="tab-my-tickets" class="tab-content">
       <div class="section-head">
         <h1>Mis tickets</h1>
@@ -114,7 +100,6 @@
       </div>
     </section>
 
-    <!-- ===== TAB: PANEL ORGANIZADOR ===== -->
     <section id="tab-organizer" class="tab-content">
       <div class="section-head">
         <h1>Panel del organizador</h1>
@@ -161,7 +146,6 @@
       </div>
     </section>
 
-    <!-- ===== TAB: ADMIN ===== -->
     <section id="tab-admin" class="tab-content">
       <div class="section-head">
         <h1>Administración</h1>
@@ -181,9 +165,6 @@
 
   </main>
 
-  <!-- ============================================================ -->
-  <!--                       MODAL DE REVENTA                         -->
-  <!-- ============================================================ -->
   <div id="resale-modal" class="modal hidden">
     <div class="modal-card">
       <h2>Poner ticket en reventa</h2>
@@ -201,7 +182,6 @@
     </div>
   </div>
 
-  <!-- Toast / notificaciones -->
   <div id="toast-container"></div>
 
   <footer>
