@@ -1,22 +1,12 @@
-/* ============================================================
-   TicketChain · app.js
-   Conecta el frontend con MetaMask y con el contrato inteligente.
-   Comentado en detalle para que sea fácil de entender y defender.
-   ============================================================ */
+let provider = null;
+let signer = null;
+let contract = null;
+let userAddress = null;
+let isOwner = false;
 
-// ---------- Estado global ----------
-let provider = null;      // conexión a la blockchain (vía MetaMask)
-let signer = null;        // la wallet del usuario que firma transacciones
-let contract = null;      // el contrato TicketMarketplace
-let userAddress = null;   // dirección 0x... del usuario conectado
-let isOwner = false;      // si el usuario es dueño del contrato
-
-// ---------- Inicialización ----------
 window.addEventListener("DOMContentLoaded", () => {
-  // 1. Mostramos el modal de bienvenida (REQUISITO #1 de la rúbrica)
   document.getElementById("welcome-modal").classList.remove("hidden");
 
-  // 2. Botones del modal de bienvenida
   document.getElementById("btn-connect-welcome").onclick = async () => {
     closeWelcomeModal();
     await connectWallet();
@@ -26,30 +16,22 @@ window.addEventListener("DOMContentLoaded", () => {
     enterReadOnlyMode();
   };
 
-  // 3. Botón principal de conectar/desconectar (REQUISITO #3)
   document.getElementById("btn-toggle-wallet").onclick = toggleWallet;
 
-  // 4. Navegación por tabs
   document.querySelectorAll(".tab").forEach(btn => {
     btn.onclick = () => switchTab(btn.dataset.tab);
   });
 
-  // 5. Formularios
   document.getElementById("form-create-event").onsubmit = handleCreateEvent;
   document.getElementById("form-validate-ticket").onsubmit = handleValidateTicket;
   document.getElementById("form-authorize").onsubmit = handleAuthorize;
   document.getElementById("form-resale").onsubmit = handleListResale;
   document.getElementById("resale-cancel").onclick = closeResaleModal;
 
-  // 6. Cargamos los datos del contrato en modo lectura aunque no haya wallet
   setupReadOnlyProvider();
   loadEvents();
   loadResale();
 });
-
-// ====================================================================
-//                       CONEXIÓN A LA WALLET
-// ====================================================================
 
 function closeWelcomeModal() {
   document.getElementById("welcome-modal").classList.add("hidden");
@@ -57,7 +39,6 @@ function closeWelcomeModal() {
 
 function enterReadOnlyMode() {
   toast("Modo solo lectura activado. Conecta tu wallet para realizar transacciones.", "info");
-  // Mostrar un banner en cada sección que requiera firma
   document.querySelectorAll("main section").forEach(sec => {
     if (sec.id !== "tab-events" && sec.id !== "tab-resale" && !sec.querySelector(".readonly-banner")) {
       const banner = document.createElement("div");
@@ -74,16 +55,13 @@ async function connectWallet() {
     return;
   }
   try {
-    // Pedimos permiso al usuario para acceder a sus cuentas
     provider = new ethers.BrowserProvider(window.ethereum);
     await provider.send("eth_requestAccounts", []);
     signer = await provider.getSigner();
     userAddress = await signer.getAddress();
 
-    // Instanciamos el contrato CON el signer (puede firmar transacciones)
     contract = new ethers.Contract(window.CONTRACT.address, window.CONTRACT.abi, signer);
 
-    // Detectamos si el usuario es el dueño del contrato (para el panel admin)
     const ownerAddr = await contract.owner();
     isOwner = ownerAddr.toLowerCase() === userAddress.toLowerCase();
 
@@ -91,15 +69,12 @@ async function connectWallet() {
     removeReadOnlyBanners();
     toast(`Conectado: ${shortAddr(userAddress)}`, "success");
 
-    // Refrescamos datos
     await loadEvents();
     await loadResale();
     await loadMyTickets();
 
-    // Escuchamos eventos del contrato para auto-refrescar
     listenContractEvents();
 
-    // Si el usuario cambia de cuenta en MetaMask, recargamos
     window.ethereum.on("accountsChanged", () => window.location.reload());
     window.ethereum.on("chainChanged",    () => window.location.reload());
 
@@ -110,8 +85,6 @@ async function connectWallet() {
 }
 
 function disconnectWallet() {
-  // Nota: MetaMask no permite forzar logout desde la dApp; lo que hacemos
-  // es olvidar el signer y volver a modo lectura.
   signer = null;
   userAddress = null;
   isOwner = false;
@@ -154,7 +127,6 @@ function removeReadOnlyBanners() {
   document.querySelectorAll(".readonly-banner").forEach(b => b.remove());
 }
 
-// Provider de solo lectura para que aun sin wallet podamos consultar la blockchain
 function setupReadOnlyProvider() {
   try {
     provider = new ethers.JsonRpcProvider("http://127.0.0.1:8545");
@@ -164,10 +136,6 @@ function setupReadOnlyProvider() {
   }
 }
 
-// ====================================================================
-//                          TABS
-// ====================================================================
-
 function switchTab(name) {
   document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t.dataset.tab === name));
   document.querySelectorAll(".tab-content").forEach(s => s.classList.toggle("active", s.id === `tab-${name}`));
@@ -176,10 +144,6 @@ function switchTab(name) {
   if (name === "resale")      loadResale();
   if (name === "my-tickets")  loadMyTickets();
 }
-
-// ====================================================================
-//                       CARGAR EVENTOS
-// ====================================================================
 
 async function loadEvents() {
   const list = document.getElementById("events-list");
@@ -236,10 +200,6 @@ function renderEventCard(ev) {
   return card;
 }
 
-// ====================================================================
-//                   COMPRAR TICKET PRIMARIO
-// ====================================================================
-
 async function handleBuyTicket(eventId, priceWei) {
   if (!signer) { toast("Necesitas conectar tu wallet primero", "error"); return; }
   try {
@@ -254,10 +214,6 @@ async function handleBuyTicket(eventId, priceWei) {
     toast(parseError(e), "error");
   }
 }
-
-// ====================================================================
-//                   CARGAR MERCADO DE REVENTA
-// ====================================================================
 
 async function loadResale() {
   const list = document.getElementById("resale-list");
@@ -339,10 +295,6 @@ async function handleCancelListing(ticketId) {
   } catch (e) { toast(parseError(e), "error"); }
 }
 
-// ====================================================================
-//                       MIS TICKETS
-// ====================================================================
-
 async function loadMyTickets() {
   const list = document.getElementById("my-tickets-list");
   if (!userAddress) {
@@ -409,10 +361,6 @@ function renderTicketCard(ticket, ev, listing) {
   return card;
 }
 
-// ====================================================================
-//                MODAL: PONER TICKET EN REVENTA
-// ====================================================================
-
 let currentResaleTicketId = null;
 
 function openResaleModal(ticketId, maxWei) {
@@ -441,10 +389,6 @@ async function handleListResale(e) {
     await loadMyTickets();
   } catch (err) { toast(parseError(err), "error"); }
 }
-
-// ====================================================================
-//                       PANEL ORGANIZADOR
-// ====================================================================
 
 async function handleCreateEvent(e) {
   e.preventDefault();
@@ -483,10 +427,6 @@ async function handleValidateTicket(e) {
   } catch (err) { toast(parseError(err), "error"); }
 }
 
-// ====================================================================
-//                              ADMIN
-// ====================================================================
-
 async function handleAuthorize(e) {
   e.preventDefault();
   if (!signer) { toast("Conecta tu wallet", "error"); return; }
@@ -500,10 +440,6 @@ async function handleAuthorize(e) {
   } catch (err) { toast(parseError(err), "error"); }
 }
 
-// ====================================================================
-//             ESCUCHAR EVENTOS DEL CONTRATO (refrescar)
-// ====================================================================
-
 function listenContractEvents() {
   contract.on("EventCreated",       () => loadEvents());
   contract.on("TicketPurchased",    () => { loadEvents(); loadMyTickets(); });
@@ -512,10 +448,6 @@ function listenContractEvents() {
   contract.on("TicketResold",       () => { loadResale(); loadMyTickets(); });
   contract.on("TicketUsed",         () => loadMyTickets());
 }
-
-// ====================================================================
-//                              HELPERS
-// ====================================================================
 
 function shortAddr(a) {
   if (!a) return "";
