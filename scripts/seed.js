@@ -1,11 +1,9 @@
 // Script OPCIONAL para crear un evento de ejemplo después de desplegar
-// Uso: npx hardhat run scripts/seed.js --network localhost
 
 const fs = require("fs");
 const path = require("path");
 
 async function main() {
-  // Leer la dirección del contrato desplegado
   const contractFile = path.join(__dirname, "..", "frontend", "contract.js");
   const content = fs.readFileSync(contractFile, "utf8");
   const json = content
@@ -44,7 +42,7 @@ async function main() {
   );
   await tx2.wait();
 
-  console.log("✅ 2 eventos de ejemplo creados");
+  console.log(" 2 eventos de ejemplo creados");
 }
 
 main().catch((error) => {
